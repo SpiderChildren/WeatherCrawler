@@ -17,13 +17,15 @@ public class Main {
     public static  void  crawl()
     {
 
-//        downloadSatelliteMap();
-//        downloadUVGraph();
-//        downloadWindFiled();
-//        downloadVisibilityGraph();
-//        downloadGlobalSatellite();
-//        downloadPrecipitation();
+        downloadSatelliteMap();
+        downloadUVGraph();
+        downloadWindFiled();
+        downloadVisibilityGraph();
+        downloadGlobalSatellite();
+        downloadPrecipitation();
         downloadWindFieldForecast();
+        downloadMonthTemperature();
+        downloadHourTemperature();
     }
 
     public  static void main(String argus [])
@@ -147,6 +149,39 @@ public class Main {
                 WindFieldForecast.isStoreOk = downloadResult;
 
             }
+        }
+    }
+
+    public static void downloadMonthTemperature()
+    {
+        if(   MonthTemperature.isTime())
+        {
+            ArrayList<String> temp =   MonthTemperature.getUrl();
+            ArrayList<String> name =  MonthTemperature.getName();
+
+            for( int i = 0; i<temp.size() ; i++) {
+                String  MTUrl = temp.get(i);
+                boolean  downloadResult  = DownloadPicture.download(  MTUrl , storeUrl, name.get(i) );
+                MonthTemperature.isStoreOk = downloadResult;
+
+            }
+        }
+    }
+
+    public static void downloadHourTemperature()
+    {
+        if(HourTemperature.isTime())
+        {
+            ArrayList<String> temp =   HourTemperature.getUrl();
+            ArrayList<String> name =  HourTemperature.getName();
+
+            for( int i = 0; i<temp.size() ; i++) {
+                String  HUrl = temp.get(i);
+                boolean  downloadResult  = DownloadPicture.download(  HUrl , storeUrl, name.get(i) );
+                HourTemperature.isStoreOk = downloadResult;
+
+            }
+
         }
     }
 

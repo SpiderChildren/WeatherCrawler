@@ -15,6 +15,7 @@ public class WindField {
     public static int nowHour  = -1;
     public static int timeBias = 8 + 2;
 
+
     public static String getHourId( int hour)
     {
         String result = "";
