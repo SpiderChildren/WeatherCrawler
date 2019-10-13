@@ -13,7 +13,7 @@ public class SatelliteMap {
     public static String basicUrld = "_sm.png";
     public static boolean isStoreOk = false;
 
-    public static int awakeHour = 8; // need to change
+    public static int awakeHour = 23; // need to change
 
     public static ArrayList<String> getUrl()
     {

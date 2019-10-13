@@ -7,7 +7,7 @@ public class UVGraph {
 
     public static String basicUrl = "http://www.temis.nl/uvradiation/UVD/uvdvc0_wd.gif";
     public static boolean isStoreOk = false;
-    public static int awakeHour = 8; // need to change
+    public static int awakeHour = 23; // need to change
 
 
     public static ArrayList<String> getUrl()

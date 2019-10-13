@@ -8,7 +8,7 @@ public class GlobalSatellite {
 
     public static String basicUrl = "http://www.temis.nl/protocols/o3col/data/omi/o3doas_yesterday.gif";
     public static boolean isStoreOk = false;
-    public static int awakeHour = 14; // need to change
+    public static int awakeHour = 23; // need to change
 
     public static ArrayList<String> getUrl()
     {

@@ -10,15 +10,6 @@
     <orderEntry type="module-library" exported="">
       <library>
         <CLASSES>
-          <root url="file://$MODULE_DIR$/lib/aliyun-sdk-oss-3.5.0.jar" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" exported="">
-      <library>
-        <CLASSES>
           <root url="file://$MODULE_DIR$/lib/commons-codec-1.9.jar" />
         </CLASSES>
         <JAVADOC />
@@ -67,6 +58,15 @@
       <library>
         <CLASSES>
           <root url="file://$MODULE_DIR$/lib/jdom-1.1.jar" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/aliyun-sdk-oss-3.5.0.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />

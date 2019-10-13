@@ -90,6 +90,7 @@ public class Main {
 
     public static void downloadVisibilityGraph()
     {
+
         //VisibilityGraph
         if(VisibilityGraph.isTime())
         {

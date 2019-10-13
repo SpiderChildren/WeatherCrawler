@@ -10,7 +10,7 @@ public class MonthTemperature {
     public static String basicUrlc = "000000000.jpg";
     public static boolean isStoreOk = false;
 
-    public static int awakeHour = 11; // need to change
+    public static int awakeHour = 23; // need to change
 
     public static ArrayList<String> getUrl()
     {
