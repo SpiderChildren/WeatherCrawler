@@ -5,7 +5,7 @@ public class UVGraph {
     //uv图，每天更新
     //http://www.temis.nl/uvradiation/UVD/uvdvc0_wd.gif
 
-    public static String basicUrl = "http://www.temis.nl/uvradiation/UVD/uvdvc0_wd.gif";
+    public static String basicUrl = "http://www.temis.nl/uvradiation/UVD/uvdvc0_wd.gif" ;
     public static boolean isStoreOk = false;
     public static int awakeHour = 23; // need to change
 

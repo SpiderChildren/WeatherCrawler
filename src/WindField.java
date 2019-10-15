@@ -8,7 +8,7 @@ public class WindField {
     //http://image.nmc.cn/product/2019/09/19/STFC/medium/SEVP_NMC_STFC_SFER_EDA_ACHN_L88_PB_20190919060000000.jpg
     public static String basicUrla = "http://image.nmc.cn/product/";
     public static String basicUrlb = "/STFC/medium/SEVP_NMC_STFC_SFER_EDA_ACHN_L88_PB_";
-    public static String basicUrlc = "0000000.jpg";
+    public static String basicUrlc = "0000000.jpg" ;
 
     public static int [] awakeHour = { 0 , 1 , 2 , 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23};
     public static boolean isStoreOk = false;
