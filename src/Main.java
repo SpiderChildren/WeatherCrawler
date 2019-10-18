@@ -38,9 +38,11 @@ public class Main {
 
         Calendar calendar = Calendar.getInstance();
         tick = calendar.get(Calendar.HOUR_OF_DAY);
+        MeteorologicalProfileMap meteorologicalProfileMap = new MeteorologicalProfileMap();
         while( true)
         {
             crawl();
+            meteorologicalProfileMap.getResult();
         }
 
     }
