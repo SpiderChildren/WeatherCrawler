@@ -1,3 +1,5 @@
+package com.weather;
+
 public class PictureNotExitException extends Exception{
 
     private  String url;

@@ -1,5 +1,6 @@
 package com.chenshuyu.reptile;
 
+import com.weather.DownloadPicture;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -72,8 +73,10 @@ public class ChinaDM {
         System.out.println(kind.getDescribe() + " " + level.getDescribe());
         for (Map.Entry<String, String> entry : result.entrySet()) {
             String mapKey = entry.getKey();
+            mapKey =kind.getDescribe() + level.getDescribe() + mapKey.substring(0 , 8 ) + mapKey.substring( 9 , 11);
             String mapValue = entry.getValue();
             System.out.println(mapKey + ": " + mapValue);
+            DownloadPicture.download( mapValue , "" , mapKey);
         }
     }
 

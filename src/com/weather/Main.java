@@ -1,11 +1,13 @@
+package com.weather;
+
+import com.chenshuyu.reptile.GetAllChinaDM;
 import com.csvreader.CsvWriter;
 
 import java.io.*;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.TreeMap;
 
 public class Main {
 
@@ -17,19 +19,20 @@ public class Main {
     public static  ArrayList< ArrayList<String>>  RetryList = new  ArrayList< ArrayList <String>>();
     public static HashMap< String , Integer > timeMap = new HashMap<String , Integer>();
     public static  int tick = 0;
+    public  static  int storeTime = 0;
 
     public static  void  crawl()
     {
 
-        downloadSatelliteMap();
-        downloadUVGraph();
-        downloadWindFiled();
-        downloadVisibilityGraph();
-        downloadGlobalSatellite();
-        downloadPrecipitation();
-        downloadWindFieldForecast();
-        downloadMonthTemperature();
-        downloadHourTemperature();
+//        downloadSatelliteMap();
+//        downloadUVGraph();
+//        downloadWindFiled();
+//        downloadVisibilityGraph();
+//        downloadGlobalSatellite();
+//        downloadPrecipitation();
+//        downloadWindFieldForecast();
+//        downloadMonthTemperature();
+//        downloadHourTemperature();
         retry();
     }
 
@@ -43,6 +46,10 @@ public class Main {
         {
             crawl();
             meteorologicalProfileMap.getResult();
+//            int hour = calendar.get(Calendar.HOUR_OF_DAY);
+//            if( hour == 8 || hour == 20) {
+//                GetAllChinaDM.getAll();
+//            }
         }
 
     }
@@ -51,30 +58,36 @@ public class Main {
     {
         boolean flag = false;
         Calendar calendar = Calendar.getInstance();
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH) + 1;
+        int day  = calendar.get(Calendar.DATE) ;
         int hour = calendar.get(Calendar.HOUR_OF_DAY);
         if(hour != tick)
         {
             tick = hour;
             flag = true;
         }
-        for( int i = 0; i < RetryList.size()  ; i++ )
+        flag = true;
+        for( int i = 0; i < RetryList.size()  ; )
         {
             ArrayList<String> urlList = RetryList.get(i);
             String url = urlList.get(0);
             String name = urlList.get(1);
             if (flag)
             {
-                int t  = timeMap.get(url);
-                timeMap.put(url , t + 1);
-                if(t + 1 > 24 )
+                int t  = timeMap.get(name);
+                timeMap.put(name , t + 1);
+                if(t + 1 > storeTime )
                 {
                     deelRetry( true , url , name);
-                    writeCsv("errorPicture.csv" , name , url );
-                    return;
+                    writeCsv("errorPicture" + year+month+day+hour+".csv" , name , url );
+                    continue;
                 }
             }
             boolean downloadResult  = DownloadPicture.download( url, storeUrl, name );
             deelRetry(downloadResult , url , name);
+            if( downloadResult == false)
+            {i++;}
 
         }
 
@@ -89,7 +102,7 @@ public class Main {
             urlInformation.add( url);
             urlInformation.add( name);
             if(RetryList.contains( urlInformation) == false) {
-                timeMap.put(url, 0);
+                timeMap.put(name, 0);
                 RetryList.add(urlInformation);
             }
         }
@@ -103,7 +116,7 @@ public class Main {
             {
                 RetryList.remove(urlInformation);
             }
-            timeMap.remove( url);
+            timeMap.remove( name);
         }
 
     }
@@ -168,7 +181,7 @@ public class Main {
     public static void downloadVisibilityGraph()
     {
 
-        //VisibilityGraph
+        //com.weather.VisibilityGraph
         if(VisibilityGraph.isTime())
         {
             ArrayList<String> temp =  VisibilityGraph.getUrl();

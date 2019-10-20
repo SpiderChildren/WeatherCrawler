@@ -1,3 +1,5 @@
+package com.weather;
+
 import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
@@ -20,7 +22,7 @@ public class MeteorologicalProfileMap {
     private void input(){
         try {
             //1.读取Excel文档对象
-            XSSFWorkbook hssfWorkbook = new XSSFWorkbook(new FileInputStream("./src/weather.xlsx"));
+            XSSFWorkbook hssfWorkbook = new XSSFWorkbook(new FileInputStream("./src/weather1.xlsx"));
             //2.获取要解析的表格（第一个表格）
             XSSFSheet sheet = hssfWorkbook.getSheetAt(0);
             //获得最后一行的行号
@@ -31,7 +33,7 @@ public class MeteorologicalProfileMap {
                 sheet.getRow(i).getCell(5).setCellType(CellType.STRING);
                 //4.获得每个单元格中的内容（String）
 
-                String name = row.getCell(4).getStringCellValue();
+                String name = row.getCell(3).getStringCellValue();
                 String id = row.getCell(5).getStringCellValue();
                 nameToid.put(name,id);
             }

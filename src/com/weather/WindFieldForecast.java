@@ -1,20 +1,21 @@
+package com.weather;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 
-public class WindField {
+public class WindFieldForecast {
 
-
-    //风场图，每小时更新
-    //http://image.nmc.cn/product/2019/09/19/STFC/medium/SEVP_NMC_STFC_SFER_EDA_ACHN_L88_PB_20190919060000000.jpg
+//    风场预报图，每三个小时，
+//    http://image.nmc.cn/product/2019/09/19/NWPR/medium/SEVP_CNWP_NWPR_SRGRP_EDA_ACHN_L10M_P9_20190919060000603.png
     public static String basicUrla = "http://image.nmc.cn/product/";
-    public static String basicUrlb = "/STFC/medium/SEVP_NMC_STFC_SFER_EDA_ACHN_L88_PB_";
-    public static String basicUrlc = "0000000.jpg" ;
+    public static String basicUrlb = "/NWPR/medium/SEVP_CNWP_NWPR_SRGRP_EDA_ACHN_L10M_P9_";
+    public static String basicUrlc = "0000603.png";
 
-    public static int [] awakeHour = { 0 , 1 , 2 , 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23};
+    public static int [] awakeHour = {  2 , 5 , 8, 11 , 14, 17,  20, 23};
+
     public static boolean isStoreOk = false;
     public static int nowHour  = -1;
-    public static int timeBias = 8 + 2;
-
+    public static int timeBias = 8 + 3;
 
     public static String getHourId( int hour)
     {
@@ -62,6 +63,7 @@ public class WindField {
 
     }
 
+
     public static ArrayList<String>  getName()
     {
         ArrayList<String> finalResult = new ArrayList<String>();
@@ -78,7 +80,7 @@ public class WindField {
             month = calendar.get(Calendar.MONTH) + 1;
             day  = calendar.get(Calendar.DATE) ;
         }
-        result1 = "WindField" + year + ( month < 10 ? '0' : "") + month + ( day < 10 ? '0' : "") + day + getHourId(hour) +".jpg";
+        result1 = "com.weather.WindFieldForecast" + year + ( month < 10 ? '0' : "") + month + ( day < 10 ? '0' : "") + day + getHourId(hour) +".png";
         finalResult.add(result1);
         return finalResult;
     }
@@ -119,7 +121,4 @@ public class WindField {
 
 
 }
-
-
-
 

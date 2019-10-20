@@ -1,3 +1,5 @@
+package com.weather;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -49,7 +51,7 @@ public class UVGraph {
         int year = calendar.get(Calendar.YEAR);
         int month = calendar.get(Calendar.MONTH) + 1;
         int day  = calendar.get(Calendar.DATE);
-        result1 = "UVGraph" + year + ( month < 10 ? '0' : "") + month + ( day < 10 ? '0' : "") + day + ".gif";
+        result1 = "com.weather.UVGraph" + year + ( month < 10 ? '0' : "") + month + ( day < 10 ? '0' : "") + day + ".gif";
         finalResult.add(result1);
         return finalResult;
     }

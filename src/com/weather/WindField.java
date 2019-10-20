@@ -1,18 +1,21 @@
+package com.weather;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 
-public class HourTemperature {
+public class WindField {
 
-    //http://image.nmc.cn/product/2019/09/24/STFC/medium/SEVP_NMC_STFC_SFER_ET0_ACHN_L88_PB_20190924030000000.jpg
-    //逐小时气温，每小时更新
+
+    //风场图，每小时更新
+    //http://image.nmc.cn/product/2019/09/19/STFC/medium/SEVP_NMC_STFC_SFER_EDA_ACHN_L88_PB_20190919060000000.jpg
     public static String basicUrla = "http://image.nmc.cn/product/";
-    public static String basicUrlb = "/STFC/medium/SEVP_NMC_STFC_SFER_ET0_ACHN_L88_PB_";
-    public static String basicUrlc = "0000000.jpg";
+    public static String basicUrlb = "/STFC/medium/SEVP_NMC_STFC_SFER_EDA_ACHN_L88_PB_";
+    public static String basicUrlc = "0000000.jpg" ;
+
     public static int [] awakeHour = { 0 , 1 , 2 , 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23};
     public static boolean isStoreOk = false;
     public static int nowHour  = -1;
     public static int timeBias = 8 + 2;
-
 
 
     public static String getHourId( int hour)
@@ -27,7 +30,6 @@ public class HourTemperature {
         result += (re < 10 ? "0" : "") + re;
         return result;
     }
-
 
     public static ArrayList<String> getUrl()
     {
@@ -78,7 +80,7 @@ public class HourTemperature {
             month = calendar.get(Calendar.MONTH) + 1;
             day  = calendar.get(Calendar.DATE) ;
         }
-        result1 = "HourTemperature" + year + ( month < 10 ? '0' : "") + month + ( day < 10 ? '0' : "") + day + getHourId(hour) +".jpg";
+        result1 = "com.weather.WindField" + year + ( month < 10 ? '0' : "") + month + ( day < 10 ? '0' : "") + day + getHourId(hour) +".jpg";
         finalResult.add(result1);
         return finalResult;
     }
@@ -118,8 +120,8 @@ public class HourTemperature {
 
 
 
-
-
 }
+
+
 
 

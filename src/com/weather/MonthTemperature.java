@@ -1,16 +1,15 @@
-import java.time.Month;
+package com.weather;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 
-public class SatelliteMap {
+public class MonthTemperature {
 
-    //卫星图，每天更新
-    //http://www.temis.nl/airpollution/no2col/data/gome2b/2019/08/world_no2total20190822_sm.png";
-    //http://www.temis.nl/airpollution/no2col/data/gome2b/2019/08/world_no2trop20190822_sm.png
-    public static String basicUrla = "http://www.temis.nl/airpollution/no2col/data/gome2b/";
-    public static String basicUrlb = "/world_no2total";
-    public static String basicUrlc = "/world_no2trop";
-    public static String basicUrld = "_sm.png";
+    //http://image.nmc.cn/product/2019/09/23/GISP/medium/SEVP_NMC_GISP_S99_ETH30_ACHN_L88_PB_20190923000000000.jpg
+    //月最高气温,每天更新,只能看到每天的
+    public static String basicUrla = "http://image.nmc.cn/product/";
+    public static String basicUrlb = "/GISP/medium/SEVP_NMC_GISP_S99_ETH30_ACHN_L88_PB_";
+    public static String basicUrlc = "000000000.jpg";
     public static boolean isStoreOk = false;
 
     public static int awakeHour = 23; // need to change
@@ -18,7 +17,6 @@ public class SatelliteMap {
     public static ArrayList<String> getUrl()
     {
         Calendar calendar = Calendar.getInstance();
-        calendar.add(Calendar.DATE,   -1);
         int year = calendar.get(Calendar.YEAR);
         int month = calendar.get(Calendar.MONTH) + 1;
         int day  = calendar.get(Calendar.DATE) ;
@@ -27,26 +25,17 @@ public class SatelliteMap {
         String formalMonth = "" + (month < 10 ? '0' : "") + month;
         String formalDay = "" + ( day < 10 ? '0' : "") + day;
         String result1 = basicUrla;
-        String result2 = basicUrla;
         result1 += year + "/";
-        result2 += year + "/";
-        result1 += "" + formalMonth;
-        result2 += "" + formalMonth;
-        result1 += basicUrlb;
-        result2 += basicUrlc;
-        result1 += year;
-        result2 += year;
-        result1 += formalMonth;
-        result2 += formalMonth;
+        result1 += "" + formalMonth + "/";
         result1 += formalDay;
-        result2 += formalDay;
-        result1 += basicUrld;
-        result2 += basicUrld;
+        result1 += basicUrlb;
+        result1 += year;
+        result1 += formalMonth;
+        result1 += formalDay;
+        result1 += basicUrlc;
         ArrayList<String>  finalResult = new ArrayList<String>();
         finalResult.add(result1);
-        finalResult.add(result2);
         return finalResult;
-
     }
 
     public static boolean isTime()
@@ -75,23 +64,13 @@ public class SatelliteMap {
     {
         ArrayList<String> finalResult = new ArrayList<String>();
         Calendar calendar = Calendar.getInstance();
-        calendar.add(Calendar.DATE,   -1);
         String  result1;
-        String result2;
         int year = calendar.get(Calendar.YEAR);
         int month = calendar.get(Calendar.MONTH) + 1;
         int day  = calendar.get(Calendar.DATE);
-        result1 = "SatelliteTotal" + year + ( month < 10 ? '0' : "") + month + ( day < 10 ? '0' : "") + day + ".png";
-        result2 = "SatelliteTrop" + year + ( month < 10 ? '0' : "") + month + ( day < 10 ? '0' : "") + day + ".png";
+        result1 = "com.weather.MonthTemperature" + year + ( month < 10 ? '0' : "") + month + ( day < 10 ? '0' : "") + day + ".jpg";
         finalResult.add(result1);
-        finalResult.add(result2);
         return finalResult;
     }
-
-//    public static void main( String argus [])
-//    {
-//        getName();
-//    }
-
 
 }
