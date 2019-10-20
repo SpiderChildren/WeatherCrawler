@@ -22,7 +22,7 @@ public class MeteorologicalProfileMap {
     private void input(){
         try {
             //1.读取Excel文档对象
-            XSSFWorkbook hssfWorkbook = new XSSFWorkbook(new FileInputStream("./src/weather1.xlsx"));
+            XSSFWorkbook hssfWorkbook = new XSSFWorkbook(new FileInputStream("./src/weather.xlsx"));
             //2.获取要解析的表格（第一个表格）
             XSSFSheet sheet = hssfWorkbook.getSheetAt(0);
             //获得最后一行的行号
