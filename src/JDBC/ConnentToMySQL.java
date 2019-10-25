@@ -74,7 +74,7 @@ public class ConnentToMySQL {
 
     public int insert(String table_name,String url, String name , String place , String date){
         String sql;
-        sql = "INSERT INTO "+table_name+" ( url, name , place , date  ) VALUE ( ?,? );";
+        sql = "INSERT INTO "+table_name+" ( url, name , place , time  ) VALUE ( ?,?,?,? );";
         try{
             pst = conn.prepareStatement(sql);
             pst.setString(1, url);

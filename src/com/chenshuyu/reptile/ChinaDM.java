@@ -74,8 +74,8 @@ public class ChinaDM {
         System.out.println(kind.getDescribe() + " " + level.getDescribe());
         for (Map.Entry<String, String> entry : result.entrySet()) {
             String mapKey = entry.getKey();
-            String time = mapKey.substring(0 , 8 ) + mapKey.substring( 9 , 11);
-            mapKey =kind.getDescribe() + level.getDescribe() + mapKey.substring(0 , 8 ) + mapKey.substring( 9 , 11);
+            String time = mapKey.substring(0 , 8 ) + mapKey.substring( 9 , 11)+"0000";
+            mapKey =kind.getDescribe() + level.getDescribe() + mapKey.substring(0 , 8 ) + mapKey.substring( 9 , 11) +".jpg";
             String mapValue = entry.getValue();
             System.out.println(mapKey + ": " + mapValue);
             Boolean downloadRe = DownloadPicture.download( mapValue , Main.storeUrl , mapKey);

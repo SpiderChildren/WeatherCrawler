@@ -135,7 +135,7 @@ public class WindFieldForecast {
             day  = calendar.get(Calendar.DATE) ;
             hour += 24;
         }
-        result = "" + year + ( month < 10 ? '0' : "") + month + ( day < 10 ? '0' : "") + day + ( hour < 10 ? '0' : "") + hour;
+        result = "" + year + ( month < 10 ? '0' : "") + month + ( day < 10 ? '0' : "") + day + ( hour < 10 ? '0' : "") + hour+"0000";
         return  result;
     }
 

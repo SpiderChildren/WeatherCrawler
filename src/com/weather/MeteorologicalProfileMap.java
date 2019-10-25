@@ -82,10 +82,10 @@ public class MeteorologicalProfileMap {
                     String time = "" + year + ( month < 10 ? '0' : "") + month + ( date < 10 ? '0' : "") + date ;
                     boolean downloadResult1  = DownloadPicture.download(getUrl(keyword,nameToid.get(key),"00"),Main.storeUrl,key+"_"+year+"_"+month+"_"+date+"_"+keyword+"_00.gif");
                     VisibilityGraph.isStoreOk = downloadResult1;
-                    Main.deelRetry(downloadResult1 ,getUrl(keyword,nameToid.get(key),"00"), key+"_"+year+"_"+month+"_"+date+"_"+keyword+"_00.gif" , key , time + "00");
+                    Main.deelRetry(downloadResult1 ,getUrl(keyword,nameToid.get(key),"00"), key+"_"+year+"_"+month+"_"+date+"_"+keyword+"_00.gif" , key , time + "00"+"0000");
                     boolean downloadResult2  = DownloadPicture.download(getUrl(keyword,nameToid.get(key),"12"),Main.storeUrl,key+"_"+year+"_"+month+"_"+date+"_"+keyword+"_12.gif");
                     VisibilityGraph.isStoreOk = downloadResult2;
-                    Main.deelRetry(downloadResult2 ,getUrl(keyword,nameToid.get(key),"12"), key+"_"+year+"_"+month+"_"+date+"_"+keyword+"_12.gif" , key , time + "12");
+                    Main.deelRetry(downloadResult2 ,getUrl(keyword,nameToid.get(key),"12"), key+"_"+year+"_"+month+"_"+date+"_"+keyword+"_12.gif" , key , time + "12"+"0000");
                 }
             }
         }
