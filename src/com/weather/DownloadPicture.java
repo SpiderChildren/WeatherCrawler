@@ -14,7 +14,7 @@ public class DownloadPicture {
 
 
     //
-    public static boolean upload = true ;
+    public static boolean upload = false ;
 
     public static boolean download( String url , String storeUrl , String name )   {
         HttpURLConnection conn = null;
@@ -56,7 +56,7 @@ public class DownloadPicture {
                 String accessKeySecret = "7VlL3BgOfUZEZ35Wea88RNV7FFIMAB";
                 String bucketName = "ebd120-data-collection";
                 OSS ossClient = new OSSClientBuilder().build(endpoint, accessKeyId, accessKeySecret);
-                ossClient.putObject( bucketName , "image/" + name, inputStream);
+                ossClient.putObject( bucketName , storeUrl+ name, inputStream);
 
             }
             else {

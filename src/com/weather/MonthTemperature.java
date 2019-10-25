@@ -68,7 +68,7 @@ public class MonthTemperature {
         int year = calendar.get(Calendar.YEAR);
         int month = calendar.get(Calendar.MONTH) + 1;
         int day  = calendar.get(Calendar.DATE);
-        result1 = "com.weather.MonthTemperature" + year + ( month < 10 ? '0' : "") + month + ( day < 10 ? '0' : "") + day + ".jpg";
+        result1 = "MonthTemperature" + year + ( month < 10 ? '0' : "") + month + ( day < 10 ? '0' : "") + day + ".jpg";
         finalResult.add(result1);
         return finalResult;
     }

@@ -13,6 +13,7 @@ public class VisibilityGraph {
     public static int [] awakeHour = { 0 , 1 , 2 , 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23};
     public static boolean isStoreOk = false;
     public static int nowHour  = -1;
+    public static int timeBias = 1;
 
 
     public static String getHourId( int hour)
@@ -70,7 +71,14 @@ public class VisibilityGraph {
         int month = calendar.get(Calendar.MONTH) + 1;
         int day  = calendar.get(Calendar.DATE);
         int hour = calendar.get(Calendar.HOUR_OF_DAY);
-        result1 = "com.weather.VisibilityGraph" + year + ( month < 10 ? '0' : "") + month + ( day < 10 ? '0' : "") + day + (hour -1) +".jpg";
+        if( hour - timeBias < 0)
+        {
+            calendar.add(Calendar.DATE,   -1);
+            year = calendar.get(Calendar.YEAR);
+            month = calendar.get(Calendar.MONTH) + 1;
+            day  = calendar.get(Calendar.DATE) ;
+        }
+        result1 = "VisibilityGraph" + year + ( month < 10 ? '0' : "") + month + ( day < 10 ? '0' : "") + day + getHourId(hour ) +".jpg";
         finalResult.add(result1);
         return finalResult;
     }

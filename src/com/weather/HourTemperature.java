@@ -80,7 +80,7 @@ public class HourTemperature {
             month = calendar.get(Calendar.MONTH) + 1;
             day  = calendar.get(Calendar.DATE) ;
         }
-        result1 = "com.weather.HourTemperature" + year + ( month < 10 ? '0' : "") + month + ( day < 10 ? '0' : "") + day + getHourId(hour) +".jpg";
+        result1 = "HourTemperature" + year + ( month < 10 ? '0' : "") + month + ( day < 10 ? '0' : "") + day + getHourId(hour) +".jpg";
         finalResult.add(result1);
         return finalResult;
     }

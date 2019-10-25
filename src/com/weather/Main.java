@@ -1,5 +1,6 @@
 package com.weather;
 
+import JDBC.ConnentToMySQL;
 import com.chenshuyu.reptile.GetAllChinaDM;
 import com.csvreader.CsvWriter;
 
@@ -13,26 +14,28 @@ public class Main {
 
 
     public static String storeUrl = "D:\\weatherPicture2\\";
+//    public  static  String storeUrl = "image/";
 //    public static String storeUrl = "/home/tank/weather";
 //    public static String storeUrl = "/home/tank/weather2";
 
     public static  ArrayList< ArrayList<String>>  RetryList = new  ArrayList< ArrayList <String>>();
     public static HashMap< String , Integer > timeMap = new HashMap<String , Integer>();
     public static  int tick = 0;
-    public  static  int storeTime = 0;
+    public  static  int storeTime = 24;
+    public static ConnentToMySQL connenter = new ConnentToMySQL();
 
     public static  void  crawl()
     {
 
-//        downloadSatelliteMap();
-//        downloadUVGraph();
-//        downloadWindFiled();
-//        downloadVisibilityGraph();
-//        downloadGlobalSatellite();
-//        downloadPrecipitation();
-//        downloadWindFieldForecast();
-//        downloadMonthTemperature();
-//        downloadHourTemperature();
+        downloadSatelliteMap();
+        downloadUVGraph();
+        downloadWindFiled();
+        downloadVisibilityGraph();
+        downloadGlobalSatellite();
+        downloadPrecipitation();
+        downloadWindFieldForecast();
+        downloadMonthTemperature();
+        downloadHourTemperature();
         retry();
     }
 
@@ -45,7 +48,7 @@ public class Main {
         while( true)
         {
             crawl();
-            meteorologicalProfileMap.getResult();
+//            meteorologicalProfileMap.getResult();
 //            int hour = calendar.get(Calendar.HOUR_OF_DAY);
 //            if( hour == 8 || hour == 20) {
 //                GetAllChinaDM.getAll();
@@ -67,7 +70,6 @@ public class Main {
             tick = hour;
             flag = true;
         }
-        flag = true;
         for( int i = 0; i < RetryList.size()  ; )
         {
             ArrayList<String> urlList = RetryList.get(i);
@@ -117,6 +119,8 @@ public class Main {
                 RetryList.remove(urlInformation);
             }
             timeMap.remove( name);
+            connenter.insert("testpicture" , storeUrl + name , name);
+
         }
 
     }

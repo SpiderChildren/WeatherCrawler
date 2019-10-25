@@ -80,7 +80,7 @@ public class WindFieldForecast {
             month = calendar.get(Calendar.MONTH) + 1;
             day  = calendar.get(Calendar.DATE) ;
         }
-        result1 = "com.weather.WindFieldForecast" + year + ( month < 10 ? '0' : "") + month + ( day < 10 ? '0' : "") + day + getHourId(hour) +".png";
+        result1 = "WindFieldForecast" + year + ( month < 10 ? '0' : "") + month + ( day < 10 ? '0' : "") + day + getHourId(hour) +".png";
         finalResult.add(result1);
         return finalResult;
     }

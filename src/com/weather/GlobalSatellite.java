@@ -44,7 +44,7 @@ public class GlobalSatellite {
         int year = calendar.get(Calendar.YEAR);
         int month = calendar.get(Calendar.MONTH) + 1;
         int day  = calendar.get(Calendar.DATE);
-        result1 = "com.weather.GlobalSatellite" + year + ( month < 10 ? '0' : "") + month + ( day < 10 ? '0' : "") + day + ".gif";
+        result1 = "GlobalSatellite" + year + ( month < 10 ? '0' : "") + month + ( day < 10 ? '0' : "") + day + ".gif";
         finalResult.add(result1);
         return finalResult;
     }

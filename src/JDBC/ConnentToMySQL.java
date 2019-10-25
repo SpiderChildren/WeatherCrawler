@@ -12,7 +12,7 @@ public class ConnentToMySQL {
 
     // 数据库的用户名与密码，需要根据自己的设置
     private static String USER = "root";
-    private static String PASS = "123456";
+    private static String PASS = "root";
 
     Connection conn;
     Statement stmt;
@@ -22,7 +22,7 @@ public class ConnentToMySQL {
 
     // MySQL 8.0 以下版本 - JDBC 驱动名及数据库 URL
     static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
-    static final String DB_URL = "jdbc:mysql://localhost:3306/"+DATA_BASE;
+    static final String DB_URL = "jdbc:mysql://localhost:3306/"+DATA_BASE+"?useSSL=false&serverTimezone=UTC";
 
     // MySQL 8.0 以上版本 - JDBC 驱动名及数据库 URL
 //    static String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";
@@ -71,13 +71,13 @@ public class ConnentToMySQL {
         return 1;
     }
 
-    public int insert(String table_name,String url, String date){
+    public int insert(String table_name,String url, String name){
         String sql;
-        sql = "INSERT INTO "+table_name+" ( url, date ) VALUE ( ?,? );";
+        sql = "INSERT INTO "+table_name+" ( url, name ) VALUE ( ?,? );";
         try{
             pst = conn.prepareStatement(sql);
             pst.setString(1, url);
-            pst.setString(2, date);
+            pst.setString(2, name);
             pst.executeUpdate();
             return 0;
         }catch(SQLException se){ // 处理 JDBC 错误
@@ -143,14 +143,14 @@ public class ConnentToMySQL {
 
 
 
-    public static void main(String[] args) {
-        ConnentToMySQL connentToMySQL = new ConnentToMySQL();
-//        int ctFlag = connentToMySQL.create_table("testcreate");
-        int isFlag = connentToMySQL.insert("testcreate","https://inserttest.fake.com","2019年10月某日");
-        int opFlag = connentToMySQL.output("testcreate",0l);
-        int rFlag = connentToMySQL.release();
-        if(rFlag==0){
-            System.out.println("\n成功关闭资源");
-        }
-    }
+//    public static void main(String[] args) {
+//        ConnentToMySQL connentToMySQL = new ConnentToMySQL();
+////        int ctFlag = connentToMySQL.create_table("testcreate");
+//        int isFlag = connentToMySQL.insert("testcreate","https://inserttest.fake.com","2019年10月某日");
+//        int opFlag = connentToMySQL.output("testcreate",0l);
+//        int rFlag = connentToMySQL.release();
+//        if(rFlag==0){
+//            System.out.println("\n成功关闭资源");
+//        }
+//    }
 }
