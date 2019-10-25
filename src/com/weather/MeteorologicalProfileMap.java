@@ -7,6 +7,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import java.io.FileInputStream;
 import java.util.*;
 
+//气象廓线图
 public class MeteorologicalProfileMap {
     int date = 0;
     String imgUrl = "http://weather.uwyo.edu";
@@ -57,7 +58,7 @@ public class MeteorologicalProfileMap {
         }
         return "http://weather.uwyo.edu/upperair/images/"+ year + month + date + time + "." + STNM +"."+ type +".parc.gif";
     }
-
+    //检查是否到了爬取时间
     private boolean check() {
         Calendar calendar = Calendar.getInstance();
         int dates = calendar.get(Calendar.DATE);

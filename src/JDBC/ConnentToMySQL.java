@@ -3,8 +3,9 @@ package JDBC;
 import java.sql.*;
 
 public class ConnentToMySQL {
-
-
+   //  alter table 数据表名 CONVERT TO CHARACTER SET utf8;
+//create table testpicture ( url varchar(500) not null unique, name  varchar(200)  not null unique , place varchar(50), time DATETIME);
+//insert into testpicture values ( "url" , "name" , "bei" , "20191025164600");
     static String DATA_BASE="test";
 //    static String TABLE = "test_table";
     static String COL_NAME = "url";
@@ -71,13 +72,15 @@ public class ConnentToMySQL {
         return 1;
     }
 
-    public int insert(String table_name,String url, String name){
+    public int insert(String table_name,String url, String name , String place , String date){
         String sql;
-        sql = "INSERT INTO "+table_name+" ( url, name ) VALUE ( ?,? );";
+        sql = "INSERT INTO "+table_name+" ( url, name , place , date  ) VALUE ( ?,? );";
         try{
             pst = conn.prepareStatement(sql);
             pst.setString(1, url);
             pst.setString(2, name);
+            pst.setString(3, place);
+            pst.setString(4, date);
             pst.executeUpdate();
             return 0;
         }catch(SQLException se){ // 处理 JDBC 错误

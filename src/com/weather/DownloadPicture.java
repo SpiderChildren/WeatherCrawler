@@ -14,7 +14,7 @@ public class DownloadPicture {
 
 
     //
-    public static boolean upload = false ;
+    public static boolean upload = true ;
 
     public static boolean download( String url , String storeUrl , String name )   {
         HttpURLConnection conn = null;

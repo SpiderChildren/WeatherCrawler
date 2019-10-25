@@ -13,17 +13,17 @@ import java.util.TreeMap;
 public class Main {
 
 
-    public static String storeUrl = "D:\\weatherPicture2\\";
-//    public  static  String storeUrl = "image/";
+//    public static String storeUrl = "D:\\weatherPicture2\\";
+    public  static  String storeUrl = "image/";
 //    public static String storeUrl = "/home/tank/weather";
-//    public static String storeUrl = "/home/tank/weather2";
 
-    public static  ArrayList< ArrayList<String>>  RetryList = new  ArrayList< ArrayList <String>>();
+
+    public static  ArrayList< ArrayList<String>>  RetryList = new  ArrayList< ArrayList <String>>();   //失败的请求进行存储，继续尝试
     public static HashMap< String , Integer > timeMap = new HashMap<String , Integer>();
     public static  int tick = 0;
-    public  static  int storeTime = 24;
+    public  static  int storeTime = 6;
     public static ConnentToMySQL connenter = new ConnentToMySQL();
-
+    public static String tableName = "testpicture";
     public static  void  crawl()
     {
 
@@ -48,11 +48,11 @@ public class Main {
         while( true)
         {
             crawl();
-//            meteorologicalProfileMap.getResult();
-//            int hour = calendar.get(Calendar.HOUR_OF_DAY);
-//            if( hour == 8 || hour == 20) {
-//                GetAllChinaDM.getAll();
-//            }
+            meteorologicalProfileMap.getResult();
+            int hour = calendar.get(Calendar.HOUR_OF_DAY);
+            if( hour == 8 || hour == 20) {
+                GetAllChinaDM.getAll();
+            }
         }
 
     }
@@ -119,7 +119,7 @@ public class Main {
                 RetryList.remove(urlInformation);
             }
             timeMap.remove( name);
-            connenter.insert("testpicture" , storeUrl + name , name);
+//            connenter.insert(tableName , storeUrl + name , name);
 
         }
 
