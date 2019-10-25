@@ -56,6 +56,17 @@ public class UVGraph {
         return finalResult;
     }
 
+    public static String getDate()
+    {
+        String result = "";
+        Calendar calendar = Calendar.getInstance();
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH) + 1;
+        int day  = calendar.get(Calendar.DATE);
+        result = "" + year + month + day;
+        return  result;
+    }
+
 }
 
 

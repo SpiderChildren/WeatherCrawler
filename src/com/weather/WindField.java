@@ -118,6 +118,25 @@ public class WindField {
         return  result;
     }
 
+    public static String getDate()
+    {
+        String result = "";
+        Calendar calendar = Calendar.getInstance();
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH) + 1;
+        int day  = calendar.get(Calendar.DATE) ;
+        int hour = calendar.get(Calendar.HOUR_OF_DAY);
+        if( hour - 2 < 0)
+        {
+            calendar.add(Calendar.DATE,   -1);
+            year = calendar.get(Calendar.YEAR);
+            month = calendar.get(Calendar.MONTH) + 1;
+            day  = calendar.get(Calendar.DATE) ;
+            hour += 24;
+        }
+        result = "" + year + ( month < 10 ? '0' : "") + month + ( day < 10 ? '0' : "") + day + ( hour < 10 ? '0' : "") + hour;
+        return  result;
+    }
 
 
 }

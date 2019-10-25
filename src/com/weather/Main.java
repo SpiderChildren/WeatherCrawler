@@ -13,7 +13,7 @@ import java.util.TreeMap;
 public class Main {
 
 
-//    public static String storeUrl = "D:\\weatherPicture2\\";
+//    public static String storeUrl = "D:\\weatherPicture\\";
     public  static  String storeUrl = "image/";
 //    public static String storeUrl = "/home/tank/weather";
 
@@ -24,18 +24,20 @@ public class Main {
     public  static  int storeTime = 6;
     public static ConnentToMySQL connenter = new ConnentToMySQL();
     public static String tableName = "testpicture";
+    public static  String china = "全国";
+
     public static  void  crawl()
     {
 
-        downloadSatelliteMap();
-        downloadUVGraph();
-        downloadWindFiled();
-        downloadVisibilityGraph();
-        downloadGlobalSatellite();
-        downloadPrecipitation();
-        downloadWindFieldForecast();
-        downloadMonthTemperature();
-        downloadHourTemperature();
+//        downloadSatelliteMap();
+//        downloadUVGraph();
+//        downloadWindFiled();
+//        downloadVisibilityGraph();
+//        downloadGlobalSatellite();
+//        downloadPrecipitation();
+//        downloadWindFieldForecast();
+//        downloadMonthTemperature();
+//        downloadHourTemperature();
         retry();
     }
 
@@ -48,9 +50,9 @@ public class Main {
         while( true)
         {
             crawl();
-            meteorologicalProfileMap.getResult();
+//            meteorologicalProfileMap.getResult();
             int hour = calendar.get(Calendar.HOUR_OF_DAY);
-            if( hour == 8 || hour == 20) {
+            if( hour == 8 || hour == 21) {
                 GetAllChinaDM.getAll();
             }
         }
@@ -70,24 +72,32 @@ public class Main {
             tick = hour;
             flag = true;
         }
+        long start = System.nanoTime();
         for( int i = 0; i < RetryList.size()  ; )
         {
+            long end = System.nanoTime();
+            if ( (end - start) / 1e9 > 1800)
+            {
+                break;
+            }
             ArrayList<String> urlList = RetryList.get(i);
             String url = urlList.get(0);
             String name = urlList.get(1);
+            String place = urlList.get(2);
+            String date = urlList.get(3);
             if (flag)
             {
                 int t  = timeMap.get(name);
                 timeMap.put(name , t + 1);
                 if(t + 1 > storeTime )
                 {
-                    deelRetry( true , url , name);
+                    deelRetry( true , url , name , place , date);
                     writeCsv("errorPicture" + year+month+day+hour+".csv" , name , url );
                     continue;
                 }
             }
             boolean downloadResult  = DownloadPicture.download( url, storeUrl, name );
-            deelRetry(downloadResult , url , name);
+            deelRetry(downloadResult , url , name , place , date);
             if( downloadResult == false)
             {i++;}
 
@@ -95,7 +105,7 @@ public class Main {
 
     }
 
-    public static void deelRetry(boolean  downloadResult , String url , String name )
+    public static void deelRetry(boolean  downloadResult , String url , String name , String place , String date )
     {
         if(downloadResult == false)
         {
@@ -103,6 +113,8 @@ public class Main {
             ArrayList<String> urlInformation = new ArrayList<String>();
             urlInformation.add( url);
             urlInformation.add( name);
+            urlInformation.add(place);
+            urlInformation.add(date);
             if(RetryList.contains( urlInformation) == false) {
                 timeMap.put(name, 0);
                 RetryList.add(urlInformation);
@@ -114,12 +126,14 @@ public class Main {
             ArrayList<String> urlInformation = new ArrayList<String>();
             urlInformation.add( url);
             urlInformation.add( name);
+            urlInformation.add(place);
+            urlInformation.add(date);
             if(RetryList.contains(urlInformation))
             {
                 RetryList.remove(urlInformation);
             }
             timeMap.remove( name);
-//            connenter.insert(tableName , storeUrl + name , name);
+            connenter.insert(tableName , storeUrl + name , name , place , date);
 
         }
 
@@ -136,9 +150,10 @@ public class Main {
             for( int i = 0; i<temp.size() ; i++) {
                 String SatelliteMapUrl = temp.get(i);
                 String SatelliteMapName = name.get(i);
+                String date = SatelliteMap.getDate();
                 boolean downloadResult  = DownloadPicture.download(SatelliteMapUrl, storeUrl, SatelliteMapName );
                 SatelliteMap.isStoreOk = downloadResult;
-                deelRetry( downloadResult , SatelliteMapUrl , SatelliteMapName);
+                deelRetry( downloadResult , SatelliteMapUrl , SatelliteMapName  , china , date);
 
             }
         }
@@ -155,9 +170,10 @@ public class Main {
             for( int i = 0; i<temp.size() ; i++) {
                 String UVGraphUrl = temp.get(i);
                 String UVName = name.get(i);
+                String date = UVGraph.getDate();
                 boolean downloadResult  = DownloadPicture.download( UVGraphUrl, storeUrl, UVName );
                 UVGraph.isStoreOk = downloadResult;
-                deelRetry(downloadResult , UVGraphUrl , UVName);
+                deelRetry(downloadResult , UVGraphUrl , UVName , china , date);
 
 
             }
@@ -175,9 +191,10 @@ public class Main {
             for( int i = 0; i<temp.size() ; i++) {
                 String WindFieldMapUrl = temp.get(i);
                 String WindName = name.get(i);
+                String date = WindField.getDate();
                 boolean downloadResult  = DownloadPicture.download( WindFieldMapUrl, storeUrl, WindName );
                 WindField.isStoreOk = downloadResult;
-                deelRetry( downloadResult , WindFieldMapUrl , WindName);
+                deelRetry( downloadResult , WindFieldMapUrl , WindName , china , date);
             }
         }
     }
@@ -194,9 +211,10 @@ public class Main {
             for( int i = 0; i<temp.size() ; i++) {
                 String VisibilityGraphUrl = temp.get(i);
                 String VisiName = name.get(i);
+                String date = VisibilityGraph.getDate();
                 boolean downloadResult  = DownloadPicture.download( VisibilityGraphUrl, storeUrl, VisiName );
                 VisibilityGraph.isStoreOk = downloadResult;
-                deelRetry(downloadResult , VisibilityGraphUrl , VisiName);
+                deelRetry(downloadResult , VisibilityGraphUrl , VisiName , china , date);
 
             }
         }
@@ -212,9 +230,10 @@ public class Main {
             for( int i = 0; i<temp.size() ; i++) {
                 String GlobalSatelliteUrl = temp.get(i);
                 String GlobalName = name.get(i);
+                String date = GlobalSatellite.getDate();
                 boolean downloadResult  = DownloadPicture.download( GlobalSatelliteUrl, storeUrl, GlobalName );
                 GlobalSatellite.isStoreOk = downloadResult;
-                deelRetry(downloadResult, GlobalSatelliteUrl , GlobalName);
+                deelRetry(downloadResult, GlobalSatelliteUrl , GlobalName , china , date);
             }
         }
     }
@@ -229,9 +248,10 @@ public class Main {
             for( int i = 0; i<temp.size() ; i++) {
                 String  PrecipitationUrl = temp.get(i);
                 String PrecipitationName = name.get(i);
+                String date = Precipitation.getDate();
                 boolean downloadResult  = DownloadPicture.download( PrecipitationUrl , storeUrl, PrecipitationName );
                 Precipitation.isStoreOk = downloadResult;
-                deelRetry( downloadResult , PrecipitationUrl , PrecipitationName);
+                deelRetry( downloadResult , PrecipitationUrl , PrecipitationName , china , date);
 
             }
         }
@@ -247,9 +267,10 @@ public class Main {
             for( int i = 0; i<temp.size() ; i++) {
                 String  WFFUrl = temp.get(i);
                 String WFFName = name.get(i);
+                String date = WindFieldForecast.getDate();
                 boolean  downloadResult  = DownloadPicture.download( WFFUrl , storeUrl,name.get(i)  );
                 WindFieldForecast.isStoreOk = downloadResult;
-                deelRetry( downloadResult , WFFUrl , WFFName);
+                deelRetry( downloadResult , WFFUrl , WFFName , china , date);
 
             }
         }
@@ -265,9 +286,10 @@ public class Main {
             for( int i = 0; i<temp.size() ; i++) {
                 String  MTUrl = temp.get(i);
                 String MTName = name.get(i);
+                String date = MonthTemperature.getDate();
                 boolean  downloadResult  = DownloadPicture.download(  MTUrl , storeUrl, MTName );
                 MonthTemperature.isStoreOk = downloadResult;
-                deelRetry( downloadResult , MTUrl , MTName);
+                deelRetry( downloadResult , MTUrl , MTName , china , date);
 
             }
         }
@@ -283,9 +305,10 @@ public class Main {
             for( int i = 0; i<temp.size() ; i++) {
                 String  HUrl = temp.get(i);
                 String HName = name.get(i);
+                String date = HourTemperature.getDate();
                 boolean  downloadResult  = DownloadPicture.download(  HUrl , storeUrl, HName );
                 HourTemperature.isStoreOk = downloadResult;
-                deelRetry( downloadResult, HUrl , HName);
+                deelRetry( downloadResult, HUrl , HName , china , date);
             }
 
         }

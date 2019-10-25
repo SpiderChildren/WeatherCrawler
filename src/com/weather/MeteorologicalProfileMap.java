@@ -79,12 +79,13 @@ public class MeteorologicalProfileMap {
             int date = calendar.get(Calendar.DATE)-1;
             for (String key : nameToid.keySet()){
                 for (String keyword : keywords){
-                    boolean downloadResult1  = DownloadPicture.download(getUrl(keyword,nameToid.get(key),"00"),"sss",key+"_"+year+"_"+month+"_"+date+"_"+keyword+"_00.gif");
+                    String time = "" + year + ( month < 10 ? '0' : "") + month + ( date < 10 ? '0' : "") + date ;
+                    boolean downloadResult1  = DownloadPicture.download(getUrl(keyword,nameToid.get(key),"00"),Main.storeUrl,key+"_"+year+"_"+month+"_"+date+"_"+keyword+"_00.gif");
                     VisibilityGraph.isStoreOk = downloadResult1;
-                    Main.deelRetry(downloadResult1 ,getUrl(keyword,nameToid.get(key),"00"), key+"_"+year+"_"+month+"_"+date+"_"+keyword+"_00.gif");
-                    boolean downloadResult2  = DownloadPicture.download(getUrl(keyword,nameToid.get(key),"12"),"sss",key+"_"+year+"_"+month+"_"+date+"_"+keyword+"_12.gif");
+                    Main.deelRetry(downloadResult1 ,getUrl(keyword,nameToid.get(key),"00"), key+"_"+year+"_"+month+"_"+date+"_"+keyword+"_00.gif" , key , time + "00");
+                    boolean downloadResult2  = DownloadPicture.download(getUrl(keyword,nameToid.get(key),"12"),Main.storeUrl,key+"_"+year+"_"+month+"_"+date+"_"+keyword+"_12.gif");
                     VisibilityGraph.isStoreOk = downloadResult2;
-                    Main.deelRetry(downloadResult2 ,getUrl(keyword,nameToid.get(key),"12"), key+"_"+year+"_"+month+"_"+date+"_"+keyword+"_12.gif");
+                    Main.deelRetry(downloadResult2 ,getUrl(keyword,nameToid.get(key),"12"), key+"_"+year+"_"+month+"_"+date+"_"+keyword+"_12.gif" , key , time + "12");
                 }
             }
         }

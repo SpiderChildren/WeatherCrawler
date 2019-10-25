@@ -32,7 +32,7 @@ public class DownloadPicture {
             URL httpUrl = new URL(url);
             conn = (HttpURLConnection) httpUrl.openConnection();
             //以Post方式提交表单，默认get方式
-            conn.setReadTimeout(60 *1000);
+            conn.setReadTimeout(30 *1000);
             conn.setConnectTimeout(30*1000);
             conn.setRequestMethod("GET");
             conn.setDoInput(true);
