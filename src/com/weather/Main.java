@@ -21,7 +21,7 @@ public class Main {
     public static  ArrayList< ArrayList<String>>  RetryList = new  ArrayList< ArrayList <String>>();   //失败的请求进行存储，继续尝试
     public static HashMap< String , Integer > timeMap = new HashMap<String , Integer>();
     public static  int tick = 0;
-    public  static  int storeTime = 6;
+    public  static  int storeTime = 2;
     public static ConnentToMySQL connenter = new ConnentToMySQL();
     public static String tableName = "testpicture";
     public static  String china = "全国";
@@ -29,15 +29,15 @@ public class Main {
     public static  void  crawl()
     {
 
-//        downloadSatelliteMap();
-//        downloadUVGraph();
-//        downloadWindFiled();
-//        downloadVisibilityGraph();
-//        downloadGlobalSatellite();
-//        downloadPrecipitation();
-//        downloadWindFieldForecast();
-//        downloadMonthTemperature();
-//        downloadHourTemperature();
+        downloadSatelliteMap();
+        downloadUVGraph();
+        downloadWindFiled();
+        downloadVisibilityGraph();
+        downloadGlobalSatellite();
+        downloadPrecipitation();
+        downloadWindFieldForecast();
+        downloadMonthTemperature();
+        downloadHourTemperature();
         retry();
     }
 
@@ -47,12 +47,17 @@ public class Main {
         Calendar calendar = Calendar.getInstance();
         tick = calendar.get(Calendar.HOUR_OF_DAY);
         MeteorologicalProfileMap meteorologicalProfileMap = new MeteorologicalProfileMap();
+        boolean flag = true;
         while( true)
         {
             crawl();
-//            meteorologicalProfileMap.getResult();
+            meteorologicalProfileMap.getResult();
             int hour = calendar.get(Calendar.HOUR_OF_DAY);
-            if( hour == 8 || hour == 21) {
+            if( hour != 8 && hour != 22)
+            {flag = true;}
+            if( (hour == 8 || hour == 22) && flag) {
+
+                flag = false;
                 GetAllChinaDM.getAll();
             }
         }
@@ -61,6 +66,7 @@ public class Main {
 
     public static  void retry()
     {
+        System.out.println("In retry");
         boolean flag = false;
         Calendar calendar = Calendar.getInstance();
         int year = calendar.get(Calendar.YEAR);
@@ -72,12 +78,35 @@ public class Main {
             tick = hour;
             flag = true;
         }
+        if (flag) {
+            for (int i = 0; i < RetryList.size(); ) {
+
+                ArrayList<String> urlList = RetryList.get(i);
+                String url = urlList.get(0);
+                String name = urlList.get(1);
+                String place = urlList.get(2);
+                String date = urlList.get(3);
+                int t = timeMap.get(name);
+                timeMap.put(name, t + 1);
+                writeCsv("log" + year + month + day + hour + ".csv", name, "" + t);
+                if (t + 1 >= storeTime) {
+                    deelRetry(true, url, name, place, date, true);
+                    writeCsv("errorPicture" + year + month + day + hour + ".csv", name, url);
+                    continue;
+                } else {
+                    i++;
+                }
+
+
+            }
+        }
         long start = System.nanoTime();
         for( int i = 0; i < RetryList.size()  ; )
         {
             long end = System.nanoTime();
             if ( (end - start) / 1e9 > 1800)
             {
+                System.out.println("In did");
                 break;
             }
             ArrayList<String> urlList = RetryList.get(i);
@@ -85,19 +114,8 @@ public class Main {
             String name = urlList.get(1);
             String place = urlList.get(2);
             String date = urlList.get(3);
-            if (flag)
-            {
-                int t  = timeMap.get(name);
-                timeMap.put(name , t + 1);
-                if(t + 1 > storeTime )
-                {
-                    deelRetry( true , url , name , place , date);
-                    writeCsv("errorPicture" + year+month+day+hour+".csv" , name , url );
-                    continue;
-                }
-            }
             boolean downloadResult  = DownloadPicture.download( url, storeUrl, name );
-            deelRetry(downloadResult , url , name , place , date);
+            deelRetry(downloadResult , url , name , place , date, false);
             if( downloadResult == false)
             {i++;}
 
@@ -105,7 +123,7 @@ public class Main {
 
     }
 
-    public static void deelRetry(boolean  downloadResult , String url , String name , String place , String date )
+    public static void deelRetry(boolean  downloadResult , String url , String name , String place , String date  , boolean isDelete)
     {
         if(downloadResult == false)
         {
@@ -115,6 +133,7 @@ public class Main {
             urlInformation.add( name);
             urlInformation.add(place);
             urlInformation.add(date);
+            System.out.println("tick:" + timeMap.get(name));
             if(RetryList.contains( urlInformation) == false) {
                 timeMap.put(name, 0);
                 RetryList.add(urlInformation);
@@ -133,7 +152,10 @@ public class Main {
                 RetryList.remove(urlInformation);
             }
             timeMap.remove( name);
-            connenter.insert(tableName , storeUrl + name , name , place , date);
+            if(isDelete == false)
+            {
+                connenter.insert(tableName , storeUrl + name , name , place , date);
+            }
 
         }
 
@@ -153,7 +175,7 @@ public class Main {
                 String date = SatelliteMap.getDate();
                 boolean downloadResult  = DownloadPicture.download(SatelliteMapUrl, storeUrl, SatelliteMapName );
                 SatelliteMap.isStoreOk = downloadResult;
-                deelRetry( downloadResult , SatelliteMapUrl , SatelliteMapName  , china , date);
+                deelRetry( downloadResult , SatelliteMapUrl , SatelliteMapName  , china , date, false);
 
             }
         }
@@ -173,7 +195,7 @@ public class Main {
                 String date = UVGraph.getDate();
                 boolean downloadResult  = DownloadPicture.download( UVGraphUrl, storeUrl, UVName );
                 UVGraph.isStoreOk = downloadResult;
-                deelRetry(downloadResult , UVGraphUrl , UVName , china , date);
+                deelRetry(downloadResult , UVGraphUrl , UVName , china , date, false);
 
 
             }
@@ -194,7 +216,7 @@ public class Main {
                 String date = WindField.getDate();
                 boolean downloadResult  = DownloadPicture.download( WindFieldMapUrl, storeUrl, WindName );
                 WindField.isStoreOk = downloadResult;
-                deelRetry( downloadResult , WindFieldMapUrl , WindName , china , date);
+                deelRetry( downloadResult , WindFieldMapUrl , WindName , china , date , false);
             }
         }
     }
@@ -214,7 +236,7 @@ public class Main {
                 String date = VisibilityGraph.getDate();
                 boolean downloadResult  = DownloadPicture.download( VisibilityGraphUrl, storeUrl, VisiName );
                 VisibilityGraph.isStoreOk = downloadResult;
-                deelRetry(downloadResult , VisibilityGraphUrl , VisiName , china , date);
+                deelRetry(downloadResult , VisibilityGraphUrl , VisiName , china , date , false);
 
             }
         }
@@ -233,7 +255,7 @@ public class Main {
                 String date = GlobalSatellite.getDate();
                 boolean downloadResult  = DownloadPicture.download( GlobalSatelliteUrl, storeUrl, GlobalName );
                 GlobalSatellite.isStoreOk = downloadResult;
-                deelRetry(downloadResult, GlobalSatelliteUrl , GlobalName , china , date);
+                deelRetry(downloadResult, GlobalSatelliteUrl , GlobalName , china , date , false);
             }
         }
     }
@@ -251,7 +273,7 @@ public class Main {
                 String date = Precipitation.getDate();
                 boolean downloadResult  = DownloadPicture.download( PrecipitationUrl , storeUrl, PrecipitationName );
                 Precipitation.isStoreOk = downloadResult;
-                deelRetry( downloadResult , PrecipitationUrl , PrecipitationName , china , date);
+                deelRetry( downloadResult , PrecipitationUrl , PrecipitationName , china , date , false);
 
             }
         }
@@ -270,7 +292,7 @@ public class Main {
                 String date = WindFieldForecast.getDate();
                 boolean  downloadResult  = DownloadPicture.download( WFFUrl , storeUrl,name.get(i)  );
                 WindFieldForecast.isStoreOk = downloadResult;
-                deelRetry( downloadResult , WFFUrl , WFFName , china , date);
+                deelRetry( downloadResult , WFFUrl , WFFName , china , date, false);
 
             }
         }
@@ -289,7 +311,7 @@ public class Main {
                 String date = MonthTemperature.getDate();
                 boolean  downloadResult  = DownloadPicture.download(  MTUrl , storeUrl, MTName );
                 MonthTemperature.isStoreOk = downloadResult;
-                deelRetry( downloadResult , MTUrl , MTName , china , date);
+                deelRetry( downloadResult , MTUrl , MTName , china , date, false);
 
             }
         }
@@ -308,7 +330,7 @@ public class Main {
                 String date = HourTemperature.getDate();
                 boolean  downloadResult  = DownloadPicture.download(  HUrl , storeUrl, HName );
                 HourTemperature.isStoreOk = downloadResult;
-                deelRetry( downloadResult, HUrl , HName , china , date);
+                deelRetry( downloadResult, HUrl , HName , china , date, false);
             }
 
         }

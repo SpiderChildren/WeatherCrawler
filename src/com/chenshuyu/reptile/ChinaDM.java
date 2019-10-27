@@ -79,7 +79,7 @@ public class ChinaDM {
             String mapValue = entry.getValue();
             System.out.println(mapKey + ": " + mapValue);
             Boolean downloadRe = DownloadPicture.download( mapValue , Main.storeUrl , mapKey);
-            Main.deelRetry(downloadRe ,mapValue , mapKey ,Main.china ,time);
+            Main.deelRetry(downloadRe ,mapValue , mapKey ,Main.china ,time, false);
         }
     }
 
