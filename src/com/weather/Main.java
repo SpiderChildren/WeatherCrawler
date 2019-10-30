@@ -13,15 +13,16 @@ import java.util.TreeMap;
 public class Main {
 
 
+    //在云上的存储位置
 //    public static String storeUrl = "D:\\weatherPicture\\";
-    public  static  String storeUrl = "image/";
+    public  static  String storeUrl = "image2/";
 //    public static String storeUrl = "/home/tank/weather";
 
 
     public static  ArrayList< ArrayList<String>>  RetryList = new  ArrayList< ArrayList <String>>();   //失败的请求进行存储，继续尝试
     public static HashMap< String , Integer > timeMap = new HashMap<String , Integer>();
     public static  int tick = 0;
-    public  static  int storeTime = 2;
+    public  static  int storeTime = 6;
     public static ConnentToMySQL connenter = new ConnentToMySQL();
     public static String tableName = "testpicture";
     public static  String china = "全国";
@@ -52,13 +53,15 @@ public class Main {
         {
             crawl();
             meteorologicalProfileMap.getResult();
+            calendar = Calendar.getInstance();
             int hour = calendar.get(Calendar.HOUR_OF_DAY);
-            if( hour != 8 && hour != 22)
+            if( hour != 17 && hour != 22)
             {flag = true;}
-            if( (hour == 8 || hour == 22) && flag) {
-
-                flag = false;
+            if( (hour == 17 || hour == 22) && flag) {
+//                writeCsv("成功进入", "", "" );
                 GetAllChinaDM.getAll();
+                flag = false;
+
             }
         }
 
@@ -66,7 +69,7 @@ public class Main {
 
     public static  void retry()
     {
-        System.out.println("In retry");
+//        System.out.println("In retry");
         boolean flag = false;
         Calendar calendar = Calendar.getInstance();
         int year = calendar.get(Calendar.YEAR);
@@ -88,7 +91,7 @@ public class Main {
                 String date = urlList.get(3);
                 int t = timeMap.get(name);
                 timeMap.put(name, t + 1);
-                writeCsv("log" + year + month + day + hour + ".csv", name, "" + t);
+//                writeCsv("log" + year + month + day + hour + ".csv", name, "" + t);
                 if (t + 1 >= storeTime) {
                     deelRetry(true, url, name, place, date, true);
                     writeCsv("errorPicture" + year + month + day + hour + ".csv", name, url);
@@ -106,7 +109,7 @@ public class Main {
             long end = System.nanoTime();
             if ( (end - start) / 1e9 > 1800)
             {
-                System.out.println("In did");
+//                System.out.println("In did");
                 break;
             }
             ArrayList<String> urlList = RetryList.get(i);
@@ -133,7 +136,7 @@ public class Main {
             urlInformation.add( name);
             urlInformation.add(place);
             urlInformation.add(date);
-            System.out.println("tick:" + timeMap.get(name));
+//            System.out.println("tick:" + timeMap.get(name));
             if(RetryList.contains( urlInformation) == false) {
                 timeMap.put(name, 0);
                 RetryList.add(urlInformation);

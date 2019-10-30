@@ -3,7 +3,7 @@ package JDBC;
 import java.sql.*;
 
 public class ConnentToMySQL {
-   //  alter table 数据表名 CONVERT TO CHARACTER SET utf8;
+   //  alter table testpicture CONVERT TO CHARACTER SET utf8;
 //create table testpicture ( url varchar(500) not null , name  varchar(200)  not null unique , place varchar(50), time DATETIME);
 //insert into testpicture values ( "url" , "name" , "bei" , "20191025164600");
     static String DATA_BASE="test";
